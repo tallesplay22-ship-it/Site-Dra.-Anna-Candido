@@ -33,16 +33,18 @@ npm --version
 ### Primeira execução
 
 1. Abra um terminal na pasta raiz do projeto, a mesma que contém `README.md`, `frontend/` e `backend/`.
-2. Instale as dependências do backend:
+2. Na primeira vez, instale as dependências do projeto:
 
    ```sh
-   npm --prefix backend install
+   npm install
    ```
 
-3. Inicie o servidor:
+   Essa instalação inicial é necessária; depois, para iniciar o site, basta usar `npm run dev`.
+
+3. Inicie o backend e o frontend juntos:
 
    ```sh
-   npm --prefix backend start
+   npm run dev
    ```
 
 4. Quando aparecer a mensagem `Site disponível em http://127.0.0.1:3000`, abra este endereço no navegador:
@@ -61,35 +63,37 @@ No PowerShell, na raiz do projeto:
 Copy-Item backend\.env.example backend\.env
 ```
 
-O conteúdo inicial define:
+O arquivo de exemplo define:
 
 ```env
-PORT=3000
+# PORT=3000
 HOST=127.0.0.1
 APP_ORIGIN=http://localhost:3000
 ```
 
-Se alterar a porta, use a mesma porta em `PORT`, em `APP_ORIGIN` e no endereço aberto no navegador. Por exemplo, com a porta `3001`, configure `APP_ORIGIN=http://localhost:3001` e acesse `http://localhost:3001`.
+Normalmente, não é preciso alterar esse arquivo. Se a porta `3000` já estiver ocupada, `npm run dev` tenta automaticamente as portas seguintes e informa no terminal o endereço correto. Para escolher uma porta manualmente, remova o `#` de `PORT`, defina o número desejado e acesse o endereço mostrado ao iniciar o servidor.
 
 ### Rodar em modo de desenvolvimento e executar testes
 
-Para reiniciar o servidor automaticamente quando arquivos do backend mudarem:
+O comando `npm run dev` já inicia o servidor com reinicialização automática quando os arquivos do backend mudarem. Não abra `frontend/index.html` diretamente e não inicie outro servidor de frontend: o backend entrega os arquivos e a API pela mesma porta.
+
+Para iniciar o servidor sem modo de desenvolvimento:
 
 ```sh
-npm --prefix backend run dev
+npm start
 ```
 
 Para executar os testes de validação do backend:
 
 ```sh
-npm --prefix backend test
+npm test
 ```
 
 ### Solução de problemas
 
-- **“Porta já está em uso”**: feche o outro processo que está usando a porta ou configure uma porta livre em `backend/.env` e ajuste `APP_ORIGIN`.
+- **“Porta já está em uso”**: feche o outro processo que está usando a porta ou altere `PORT` em `backend/.env`; se configurou `APP_ORIGIN`, ajuste-a para a mesma porta.
 - **Erro de versão do Node.js ou SQLite**: instale Node.js 22.5 ou superior e abra um terminal novo.
-- **O site não abre**: confirme que o comando `npm --prefix backend start` continua rodando e acesse o endereço correspondente à porta configurada.
+- **O site não abre**: confirme que o comando `npm run dev` continua rodando e acesse o endereço e a porta indicados no terminal.
 - **O navegador não abre o WhatsApp**: permita o redirecionamento; a mensagem fica preenchida, mas é preciso pressionar **Enviar** no WhatsApp para concluir o contato.
 
 Em produção, configure `NODE_ENV=production`, `APP_ORIGIN` com a URL HTTPS pública e `HOST=0.0.0.0` somente se o provedor exigir que o servidor aceite conexões externas. Se houver proxy reverso, informe em `TRUST_PROXY` somente o número de saltos ou os IPs/CIDRs dos proxies confiáveis; não use `true` nem confie em proxies desconhecidos.

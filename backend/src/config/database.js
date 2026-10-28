@@ -10,7 +10,7 @@ if (process.platform !== "win32") {
   fs.chmodSync(dataDirectory, 0o700);
 }
 
-const database = new DatabaseSync(databasePath, { timeout: 5000 });
+const database = new DatabaseSync(databasePath);
 database.exec(`
   PRAGMA journal_mode = WAL;
   PRAGMA synchronous = FULL;

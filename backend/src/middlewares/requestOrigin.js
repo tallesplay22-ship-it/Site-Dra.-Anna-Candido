@@ -1,4 +1,4 @@
-const { appOrigin } = require("../config/env");
+const { appOrigin, isProduction } = require("../config/env");
 
 function validateRequestOrigin(request, response, next) {
   const fetchSite = request.get("sec-fetch-site");
@@ -7,7 +7,7 @@ function validateRequestOrigin(request, response, next) {
   }
 
   const requestOrigin = request.get("origin");
-  if (requestOrigin && appOrigin) {
+  if (requestOrigin) {
     let parsedOrigin;
     try {
       parsedOrigin = new URL(requestOrigin).origin;
@@ -15,7 +15,10 @@ function validateRequestOrigin(request, response, next) {
       return response.status(403).json({ error: "Origem da solicitação não permitida." });
     }
 
-    if (parsedOrigin !== appOrigin) {
+    const expectedOrigin = isProduction
+      ? appOrigin
+      : `${request.protocol}://${request.get("host")}`;
+    if (parsedOrigin !== expectedOrigin) {
       return response.status(403).json({ error: "Origem da solicitação não permitida." });
     }
   }

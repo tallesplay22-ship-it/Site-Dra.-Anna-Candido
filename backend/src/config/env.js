@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 
 dotenv.config({ path: path.resolve(__dirname, "..", "..", ".env") });
 
+const portIsExplicit = Boolean(process.env.PORT);
 const port = Number(process.env.PORT || 3000);
 if (!Number.isInteger(port) || port < 1 || port > 65535) {
   throw new Error("PORT precisa ser um número entre 1 e 65535.");
@@ -49,6 +50,7 @@ module.exports = {
   appOrigin,
   host: process.env.HOST || "127.0.0.1",
   isProduction: process.env.NODE_ENV === "production",
+  portIsExplicit,
   port,
   trustProxy
 };

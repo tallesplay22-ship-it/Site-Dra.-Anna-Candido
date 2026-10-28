@@ -1,0 +1,17 @@
+{
+  "name": "portfolio-dra-anna",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site de portfólio e agendamento da Dra. Anna Flávia Candido.",
+  "workspaces": [
+    "backend"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=backend",
+    "start": "npm run start --workspace=backend",
+    "test": "npm run test --workspace=backend"
+  },
+  "engines": {
+    "node": ">=22.5"
+  }
+}
